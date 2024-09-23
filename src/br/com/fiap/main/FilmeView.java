@@ -11,7 +11,6 @@ public class FilmeView {
         int opcao;
         do {
             opcao = Integer.parseInt(JOptionPane.showInputDialog(
-                    //O chat sugeriu colocar aspas triplas e tirar o \n para não ter o aviso
                     "Escolha uma opção:\n" +
                             "1. Inserir Filme\n" +
                             "2. Alterar Filme\n" +
@@ -21,19 +20,23 @@ public class FilmeView {
 
             switch (opcao) {
                 case 1: // Inserir Filme
-                    int codigoInserir = Integer.parseInt(JOptionPane.showInputDialog("Digite o código do filme:"));
                     String tituloInserir = JOptionPane.showInputDialog("Digite o título do filme:");
                     String generoInserir = JOptionPane.showInputDialog("Digite o gênero do filme:");
                     String produtoraInserir = JOptionPane.showInputDialog("Digite a produtora do filme:");
-                    String resultadoInserir = controller.inserirFilme(codigoInserir, tituloInserir, generoInserir, produtoraInserir);
+                    String resultadoInserir = controller.inserirFilme(tituloInserir, generoInserir, produtoraInserir);
                     System.out.println(resultadoInserir);
                     break;
                 case 2: // Alterar Filme
                     int codigoAlterar = Integer.parseInt(JOptionPane.showInputDialog("Digite o código do filme a ser alterado:"));
-                    String tituloAlterar = JOptionPane.showInputDialog("Digite o novo título do filme:");
-                    String generoAlterar = JOptionPane.showInputDialog("Digite o novo gênero do filme:");
-                    String produtoraAlterar = JOptionPane.showInputDialog("Digite a nova produtora do filme:");
-                    String resultadoAlterar = controller.alterarFilme(codigoAlterar, tituloAlterar, generoAlterar, produtoraAlterar);
+                    String novoTitulo = JOptionPane.showInputDialog("Digite o novo título do filme:");
+                    String novoGenero = JOptionPane.showInputDialog("Digite o novo gênero do filme:");
+                    String novaProdutora = JOptionPane.showInputDialog("Digite a nova produtora do filme:");
+
+                    // Solicita ao usuário um novo código
+                    String inputNovoCodigo = JOptionPane.showInputDialog("Digite o novo código do filme (ou pressione Enter para manter o código atual):");
+                    Integer novoCodigo = inputNovoCodigo.isEmpty() ? null : Integer.parseInt(inputNovoCodigo);
+
+                    String resultadoAlterar = controller.alterarFilme(codigoAlterar, novoTitulo, novoGenero, novaProdutora, novoCodigo);
                     System.out.println(resultadoAlterar);
                     break;
                 case 3: // Excluir Filme
@@ -47,6 +50,7 @@ public class FilmeView {
                     break;
                 case 5: // Sair
                     System.out.println("Fim do programa");
+                    controller.fecharConexao(); // Fecha a conexão ao sair
                     System.exit(0);
                     break;
                 default:

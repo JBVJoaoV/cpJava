@@ -8,18 +8,20 @@ public class ConnectionFactory {
 
     // Constantes para facilitar futuras alterações
     private static final String URL = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL";
-    private static final String USER = "RM551659";
-    private static final String PASS = "261103";
+    private static final String USER = "RM99805";
+    private static final String PASS = "120105";
 
     // Método para abrir a conexão
     public static Connection abrirConexao() {
         Connection con = null;
         try {
-            // Carregar o driver Oracle
             Class.forName("oracle.jdbc.driver.OracleDriver");
-            // Tentar estabelecer a conexão
             con = DriverManager.getConnection(URL, USER, PASS);
             System.out.println("Conexão aberta.");
+            // Testa a conexão
+            if (con != null && !con.isClosed()) {
+                System.out.println("Conexão bem-sucedida!");
+            }
         } catch (ClassNotFoundException e) {
             System.out.println("Erro: A classe de conexão não foi encontrada!\n" + e.getMessage());
         } catch (SQLException e) {
